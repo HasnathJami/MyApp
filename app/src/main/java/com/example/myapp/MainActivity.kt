@@ -1,6 +1,8 @@
 package com.example.myapp
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
@@ -20,10 +22,11 @@ class MainActivity : AppCompatActivity() {
         // mBinding.tvName.text = mViewModel.getList()[0]
 
         subscribeUi()
+        initListener()
 
     }
 
-    private fun populateUi(list: List<String>) {
+    private fun populateNameSectionUi(list: List<String>) {
         mBinding.tvName.text = list[0]
     }
 
@@ -33,7 +36,28 @@ class MainActivity : AppCompatActivity() {
 
     private fun subscribeUiToReactiveList(liveData: LiveData<List<String>>) {
         liveData.observe(this, Observer {
-            populateUi(it)
+            populateNameSectionUi(it)
         })
     }
+
+    private fun initListener() {
+        mBinding.btnNext.setOnClickListener(View.OnClickListener {
+            val intent = Intent(this, MainActivity2::class.java)
+            //startActivity(intent)
+            startActivityForResult(intent, 200)
+
+        })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 200) {
+            if (resultCode == RESULT_OK) {
+                val role: String? = data?.getStringExtra("result")
+                mBinding.tvRole.text = role
+
+            }
+        }
+    }
+
 }
