@@ -15,6 +15,8 @@ class MyAppViewModel(application: Application) : AndroidViewModel(application) {
         list.add("Sayem")
         reactiveList.value=list
         var a:String="Hasnath"
+        var b:String="Hasnath"
+
     }
 
     private lateinit var name: String
